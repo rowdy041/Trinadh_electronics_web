@@ -12,7 +12,7 @@
         
         body {
             font-family: Arial, sans-serif;
-            background:url('backgtound outbound.png') ;
+            background:url('backgtound outbound.PNG') ;
 
             background-color:white;
             margin: 0;
@@ -72,10 +72,9 @@
 <body>
 
 
-    <form
-        method="POST" 
-        action="https://script.google.com/macros/s/AKfycbw3kH-b_hjNenmWgfNBpxPrXcQZl1YTpq_elZZRzvTh6p_7XPNffoFyNjaVCnPhR5RA/exec">
-
+    <form id="customerForm"
+        method="POST" >
+ 
         <div class="form-section">
         <label for="Date">Date</label>
         <input type="date" id="Date" name="Date" required>
@@ -114,7 +113,35 @@
          
       <button type="submit">Submit</button>
     </form>
-    
+    <script>
+        document.getElementById("customerForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+        
+            const form = new FormData(this);
+            const jsonData = {};
+            form.forEach((value, key) => jsonData[key] = value);
+        
+            try {
+                const response = await fetch("https://sheetdb.io/api/v1/20ouvn2xsv3z1", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(jsonData)
+                });
+        
+                const result = await response.json();
+                if (response.ok) {
+                    alert("Form submitted successfully!");
+                    this.reset();
+                } else {
+                    alert("Error: " + result.error);
+                }
+            } catch (error) {
+                alert("Failed to submit form.");
+                console.error("Submission error:", error);
+            }
+        });
+        </script>
+        
     
 </body>
 </html>
