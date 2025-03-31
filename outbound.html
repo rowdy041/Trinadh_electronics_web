@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Details Form</title>
+    <style>
+        p {
+            background-image: inbound background;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background:url('backgtound outbound.png') ;
+
+            background-color:white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        form {
+            background-color:white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px; /* Increased width to accommodate four equal parts */
+            margin: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .form-section {
+            width: 50%; /* Divide form into two equal parts */
+        }
+
+        .form-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            background-color:white;
+        }
+
+        .form-section input {
+            width: calc(100% - 16px);
+            background-color:white;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <form
+        method="POST" 
+        action="https://script.google.com/macros/s/AKfycbw3kH-b_hjNenmWgfNBpxPrXcQZl1YTpq_elZZRzvTh6p_7XPNffoFyNjaVCnPhR5RA/exec">
+
+        <div class="form-section">
+        <label for="Date">Date</label>
+        <input type="date" id="Date" name="Date" required>
+        
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" name="customername" required>
+      
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phonenumber" required>
+
+        <label for="Address">Address:</label>
+        <input type="text" id="address" name="address" required>
+        
+        <label for="Complaint">Complaint:</label>
+        <input type="text" id="complaint" name="complaint" required>
+       
+        </div>
+        <div class="form-section">
+        <label for="Assigned_Technician">Assigned Technician:</label>
+        <input type="text" id="Assigned_Technician" name="Assigned_Technician" required>
+        
+        <label for="Assigned_by">Assigned by :</label>
+        <input type="text" id="Assigned_by" name="Assigned_by" required>
+                  
+        <label for="paid_amount">Paid Amount</label>
+        <input type="text" id="paid_amount" name="paid_amount" required>
+        
+        <label for="material_name">Material:</label>
+        <input type="text" id="material" name="material" required>
+        
+        
+        <label for="Purchased_from">Purchased from:</label>
+        <input type="text" id="Purchased_from" name="Purchased_from" required>
+  
+        </div>
+         
+      <button type="submit">Submit</button>
+    </form>
+    
+    
+</body>
+</html>

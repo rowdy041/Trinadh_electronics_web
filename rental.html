@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Details Form</title>
+    <style>
+        p {
+            background-image: inbound background;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+                      background:url('backgtound rental.png') ;
+
+            background-color:white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        form {
+            background-color:white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px; /* Increased width to accommodate four equal parts */
+            margin: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .form-section {
+            width: 50%; /* Divide form into two equal parts */
+        }
+
+        .form-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            background-color:white;
+        }
+
+        .form-section input {
+            width: calc(100% - 16px);
+            
+            background-color:white;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="POST" action="https://script.google.com/macros/s/AKfycbzEJXDuvosJQZRlKgYP_-8_3Pz4GaPS49H1egDQhBEyMDKk7Ddza5OsKsHgFMizouM/exec">
+        <div class="form-section">
+            <label for="Date">Date</label>
+            <input type="date" id="Date" name="Date" required>
+
+            <label for="customerName">Customer Name:</label>
+            <input type="text" id="customerName" name="customer_name" required>
+
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber" name="phone_Number" required>
+
+            <label for="Address">Address:</label>
+            <input type="text" id="Address" name="Address" required>
+        
+
+        
+            <label for="Reference">Reference:</label>
+            <input type="text" id="Reference" name="Reference" required>
+
+            <label for="Reference_phone_number">Reference phone number:</label>
+            <input type="text" id="Reference_phone_number" name="Reference_phone_number" required>
+
+            <label for="Cheque_number">Cheque number:</label>
+            <input type="text" id="Cheque_number" name="Cheque_number" required>
+
+            <label for="Cheque_amount">Cheque amount:</label>
+            <input type="text" id="Cheque_amount" name="Cheque_amount" required>
+
+
+           <label for="Security_deposit">Security deposit:</label>
+            <input type="text" id="Security_deposit" name="Security_deposit" required>
+
+            <label for="Material_name">Material name:</label>
+            <input type="text" id="Material_name" name="Material_name" required>
+
+            <label for="ram">RAM:</label>
+            <input type="text" id="ram" name="ram" required>
+           
+        </div>
+        
+        
+        <div class="form-section">
+        <label for="ssd">SSD:</label>
+            <input type="text" id="ssd" name="ssd" required>
+
+
+                    
+       
+            <label for="hdd">HDD:</label>
+            <input type="text" id="hdd" name="hdd" required>
+
+            <label for="processor">Processor:</label>
+            <input type="text" id="processor" name="processor" required>
+
+            <label for="keyboard_or_mouse">Keybord or Mouse:</label>
+            <input type="text" id="keyboard_or_mouse" name="keyboard_or_mouse" required>
+
+            <label for="monitor">Monitor:</label>
+            <input type="text" id="monitor" name="monitor" required>
+            
+        
+            <label for="Technician_name">Technician name:</label>
+            <input type="text" id="Technician_name" name="Technician_name" required>
+
+            <label for="rentAmount">Rent Amount:</label>
+            <input type="number" id="rentAmount" name="rent_amount" required>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="start_date" required>
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="end_date" required>
+            
+            <label for="month">MONTH:</label>
+            <input type="text" id="month" name="month" required>
+            
+            <label for="discountAmount">Discount Amount:</label>
+            <input type="number" id="discountAmount" name="discount_amount">
+            
+            <label for="calculatedRentAmount">Calculated Rent Amount:</label>
+            <input type="text" id="calculatedRentAmount" name="calculated_rent_amount" >
+        
+       
+        </div>
+
+        <p id="result"></p>
+        <div class="form-section">
+        <button type="button" onclick="calculateRent()">Calculate Rent</button>
+        </div>
+        
+        
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        function calculateRent() {
+            var rentAmount = document.getElementById('rentAmount').value;
+            var startDate = new Date(document.getElementById('startDate').value);
+            var endDate = new Date(document.getElementById('endDate').value);
+            var discountAmount = document.getElementById('discountAmount').value || 0; // Default to 0 if no discount provided
+
+            // Calculate the difference in days
+            var differenceInTime = endDate.getTime() - startDate.getTime();
+            var differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+            // Calculate the number of months
+            var differenceInMonths = endDate.getMonth() - startDate.getMonth() +
+                (12 * (endDate.getFullYear() - startDate.getFullYear()));
+
+            // Calculate total rent
+            var totalRent = (rentAmount * (differenceInDays / 30)).toFixed(2);
+
+            // Apply discount
+            totalRent -= discountAmount;
+
+            // Display the result
+            var resultElement = document.getElementById('result');
+            resultElement.textContent = "Number of days: " + differenceInDays + ", Number of months: " + differenceInMonths +
+                ", Total rent: ₹" + totalRent;
+
+            // Update the hidden input field with the calculated total rent amount
+            document.getElementById('totalRentAmount').value = totalRent;
+
+            // Update the calculated rent amount input field
+            document.getElementById('calculatedRentAmount').value = totalRent;
+        }
+    </script>
+</body>
+
+</html>
