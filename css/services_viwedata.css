@@ -1,0 +1,139 @@
+/* === Global Styles === */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 40px auto;
+    max-width: auto;
+    background-color: #f4f6f8;
+    padding: 0 20px;
+    color: #333;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+  }
+  
+  /* === Search Form === */
+  #searchContainer {
+    border: 1px solid #ccc;
+    max-width: 80%;
+    border-radius: 10px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    transition: all 0.5s ease-in-out;
+
+  }
+  
+  .search-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+  
+  .search-row select,
+  .search-row input {
+    padding: 10px;
+    font-size: 1em;
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fefefe;
+  }
+  
+   .button-container {
+    margin-left: 9%;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  button {
+    margin-right: 10px;
+    padding: 10px 16px;
+    font-size: 1em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  button:hover {
+    transform: scale(1.03);
+  }
+  
+  button {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  button:last-of-type {
+    background-color: #27ae60;
+    color: #fff;
+  }
+  
+  /* === Output Cards === */
+  #output {
+    margin-top: 30px;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 10px 18px rgba(0,0,0,0.08);
+  }
+  
+  .card h4 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #2980b9;
+  }
+  
+  .field {
+    margin: 6px 0;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  
+  .label {
+    font-weight: 600;
+    color: #555;
+  }
+/* === Table Styles === */
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+thead {
+  background-color: #3498db;
+  color: white;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+
+  
