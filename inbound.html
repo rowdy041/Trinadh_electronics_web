@@ -70,9 +70,8 @@
 </head>
 
 <body>
-    <form 
-        method="POST" 
-        action="https://docs.google.com/spreadsheets/d/1E1wrNwERZZe11N_oGYROxFEkCuo30UqzrlX2x8G27WU" onsubmit="submitForm(event)">
+    <form id="customerForm"
+        method="POST" >
         
         <div class="form-section">
         <label for="Date">Date</label>
@@ -87,8 +86,8 @@
         <label for="Address">Address:</label>
         <input type="text" id="Address" name="Address" required>
         
-        <label for="Complaint">Complaint:</label>
-        <input type="text" id="Complaint" name="Complaint" required>
+        <label for="complaint">Complaint:</label>
+        <input type="text" id="complaint" name="complaint" required>
         
         <label for="Assigned_Technician">Assigned Technician:</label>
         <input type="text" id="Assigned_Technician" name="Assigned_Technician" required>
@@ -127,6 +126,34 @@
         
         <button type="submit">Submit</button>
     </form>
+    <script>
+        document.getElementById("customerForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+        
+            const form = new FormData(this);
+            const jsonData = {};
+            form.forEach((value, key) => jsonData[key] = value);
+        
+            try {
+                const response = await fetch("https://sheetdb.io/api/v1/y05nyxkzqu9nj", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(jsonData)
+                });
+        
+                const result = await response.json();
+                if (response.ok) {
+                    alert("Form submitted successfully!");
+                    this.reset();
+                } else {
+                    alert("Error: " + result.error);
+                }
+            } catch (error) {
+                alert("Failed to submit form.");
+                console.error("Submission error:", error);
+            }
+        });
+        </script>
    
    
 </body>
