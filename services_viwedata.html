@@ -1,170 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Search</title>
-  <link rel="stylesheet" href="css/services_viwedata.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>Services</title>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-migrate-1.1.1.js"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/superfish.js"></script>
+    <script src="js/jquery.equalheights.js"></script>
+    <script src="js/jquery.mobilemenu.js"></script>
+    <script src="js/tmStickUp.js"></script>
+    <script src="js/jquery.ui.totop.js"></script>
+    <script>
+        $(window).on("load", function() {
+            $().UItoTop({ easingType: 'easeOutQuart' });
+            $('#stuck_container').tmStickUp({});
+        });
+    </script>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .page1_header {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .services-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .banner {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .banner:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>
+                <a href="index.html">
+                    <img src="images/logo.png" alt="Logo">
+                </a>
+            </h1>
+        </div>
+        <nav id="stuck_container" class="navigation">
+            <ul class="sf-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li class="current"><a href="services.html">Services</a></li>
+                <li><a href="contacts.html">Contacts</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <h2>Search In The DataBase</h2>
+    <section class="page1_header">
+        <div class="container">
+            <div class="services-grid">
+                <a href="inbound_viewdata.html" class="banner">
+                    <div class="icon fa fa-globe"></div>Inbound
+                </a>
+                <a href="outbound_viewdata.html" class="banner">
+                    <div class="icon fa fa-globe"></div>Outbound
+                </a>
+            </div>
+        </div>
+    </section>
 
-  <div id="searchContainer">
-    <div class="search-row">
-      <select class="searchKey" onchange="updateInputType(this)">
-        <option value="customername">Customer Name</option>
-        <option value="Date">Date</option>
-        <option value="phonenumber">Phone Number</option>
-        <option value="address">Address</option>
-        <option value="complaint">Complaint</option>
-        <option value="Assigned_Technician">Assigned Technician</option>
-        <option value="Assigned_by">Assigned By</option>
-        <option value="paid_amount">Paid Amount</option>
-        <option value="material">Material</option>
-        <option value="Purchased_from">Purchased From</option>
-      </select>
-      <input type="text" class="searchValue" placeholder="Enter customername" />
-    </div>
-  </div>
-
-  <div class="button-container">
-    <button onclick="addSearchField()">Add Another Field</button>
-    <button onclick="searchSheet()">Search</button>
-    <button onclick="resetFields()">🔄 Reset</button>
-  </div>
-
-  <div id="output"></div>
-
-  <script>
-    const inputTypeMap = {
-      "phonenumber": "number",
-      "paid_amount": "number",
-      "Date": "date"
-    };
-
-    function updateInputType(selectElem) {
-      const selectedKey = selectElem.value;
-      const input = selectElem.parentElement.querySelector('.searchValue');
-      input.type = inputTypeMap[selectedKey] || "text";
-      input.placeholder = `Enter ${selectedKey.replace("_", " ")}`;
-    }
-
-    function addSearchField() {
-      const container = document.getElementById("searchContainer");
-      const newRow = container.firstElementChild.cloneNode(true);
-
-      const select = newRow.querySelector('.searchKey');
-      const input = newRow.querySelector('.searchValue');
-      input.value = "";
-      select.selectedIndex = 0;
-
-      // Update input type based on selected field
-      updateInputType(select);
-      container.appendChild(newRow);
-    }
-
-    function resetFields() {
-      const container = document.getElementById("searchContainer");
-
-      const firstRow = container.firstElementChild.cloneNode(true);
-      const select = firstRow.querySelector('.searchKey');
-      const input = firstRow.querySelector('.searchValue');
-
-      input.value = "";
-      select.selectedIndex = 0;
-      updateInputType(select);
-
-      container.innerHTML = "";
-      container.appendChild(firstRow);
-
-      document.getElementById("output").innerHTML = "";
-    }
-
-    function formatDateToMDY(dateStr) {
-            const date = new Date(dateStr);
-            const mm = String(date.getMonth() + 1);  // No leading zero
-            const dd = String(date.getDate());       // No leading zero
-            const yyyy = date.getFullYear();
-            console.log(`${dd}/${mm}/${yyyy}`);
-            return `${dd}/${mm}/${yyyy}`;
-            
-            }
-
-
-
-    async function searchSheet() {
-      const keys = document.querySelectorAll(".searchKey");
-      const values = document.querySelectorAll(".searchValue");
-      const output = document.getElementById("output");
-
-      let searchQueries = [];
-
-      for (let i = 0; i < keys.length; i++) {
-        const key = keys[i].value;
-        const value = values[i].value.trim();
-        if (value) {
-          searchQueries.push({ key, value });
-        }
-      }
-
-      if (searchQueries.length === 0) {
-        output.innerHTML = "Please enter at least one field.";
-        return;
-      }
-
-      output.innerHTML = "Searching...";
-      const url = `https://sheetdb.io/api/v1/20ouvn2xsv3z1`;
-
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-
-       const filteredData = data.filter(row => {
-            return searchQueries.every(query => {
-                const rowValue = row[query.key];
-                if (!rowValue) return false;
-
-                const expectedType = inputTypeMap[query.key];
-
-                if (expectedType === "number") {
-                return rowValue.trim() === query.value.trim();
-                } else if (expectedType === "date") {
-                const inputDate = formatDateToMDY(query.value);
-                return rowValue.trim() === inputDate;
-                } else {
-                return rowValue.toLowerCase().includes(query.value.toLowerCase());
-                }
-            });
-            });
-
-        if (filteredData.length === 0) {
-          output.innerHTML = "No results found.";
-        } else {
-          let table = `<h3>Found ${filteredData.length} result(s):</h3><div class="table-container"><table><thead><tr>`;
-
-          const headers = Object.keys(filteredData[0]);
-          headers.forEach(header => {
-            table += `<th>${header}</th>`;
-          });
-          table += `</tr></thead><tbody>`;
-
-          filteredData.forEach(row => {
-            table += "<tr>";
-            headers.forEach(header => {
-              table += `<td>${row[header] || "-"}</td>`;
-            });
-            table += "</tr>";
-          });
-
-          table += "</tbody></table></div>";
-          output.innerHTML = table;
-        }
-
-      } catch (err) {
-        output.innerHTML = `Error: ${err.message}`;
-      }
-    }
-  </script>
-
+    <footer id="footer">
+        <div class="container">
+            <p>
+                <span class="brand">Trinadh Electronics and Computer Servicing Centre</span> &copy;
+                <span id="copyright-year"></span> | <a href="#">Privacy Policy</a>
+            </p>
+            <p class="sub-copy">Website designed by <a href="https://kintokan.live/" rel="nofollow">kintokan.live</a></p>
+        </div>
+    </footer>
 </body>
 </html>

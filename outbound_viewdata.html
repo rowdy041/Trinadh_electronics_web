@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search</title>
+  <link rel="stylesheet" href="css/services_viwedata.css">
+</head>
+<body>
+
+  <h2>Search In The DataBase</h2>
+
+  <div id="searchContainer">
+    <div class="search-row">
+      <select class="searchKey" onchange="updateInputType(this)">
+        <option value="customername">Customer Name</option>
+        <option value="Date">Date</option>
+        <option value="phonenumber">Phone Number</option>
+        <option value="address">Address</option>
+        <option value="complaint">Complaint</option>
+        
+      </select>
+      <input type="text" class="searchValue" placeholder="Enter customername" />
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button onclick="addSearchField()">Add Another Field</button>
+    <button onclick="searchSheet()">Search</button>
+    <button onclick="resetFields()">🔄 Reset</button>
+  </div>
+
+  <div id="output"></div>
+
+  <script>
+    const inputTypeMap = {
+      "phonenumber": "number",
+      "paid_amount": "number",
+      "Date": "date"
+    };
+
+    function updateInputType(selectElem) {
+      const selectedKey = selectElem.value;
+      const input = selectElem.parentElement.querySelector('.searchValue');
+      input.type = inputTypeMap[selectedKey] || "text";
+      input.placeholder = `Enter ${selectedKey.replace("_", " ")}`;
+    }
+
+    function addSearchField() {
+      const container = document.getElementById("searchContainer");
+      const newRow = container.firstElementChild.cloneNode(true);
+
+      const select = newRow.querySelector('.searchKey');
+      const input = newRow.querySelector('.searchValue');
+      input.value = "";
+      select.selectedIndex = 0;
+
+      // Update input type based on selected field
+      updateInputType(select);
+      container.appendChild(newRow);
+    }
+
+    function resetFields() {
+      const container = document.getElementById("searchContainer");
+
+      const firstRow = container.firstElementChild.cloneNode(true);
+      const select = firstRow.querySelector('.searchKey');
+      const input = firstRow.querySelector('.searchValue');
+
+      input.value = "";
+      select.selectedIndex = 0;
+      updateInputType(select);
+
+      container.innerHTML = "";
+      container.appendChild(firstRow);
+
+      document.getElementById("output").innerHTML = "";
+    }
+
+    function formatDateToMDY(dateStr) {
+            const date = new Date(dateStr);
+            const mm = String(date.getMonth() + 1);  // No leading zero
+            const dd = String(date.getDate());       // No leading zero
+            const yyyy = date.getFullYear();
+            console.log(`${dd}/${mm}/${yyyy}`);
+            return `${dd}/${mm}/${yyyy}`;
+            
+            }
+
+
+
+    async function searchSheet() {
+      const keys = document.querySelectorAll(".searchKey");
+      const values = document.querySelectorAll(".searchValue");
+      const output = document.getElementById("output");
+
+      let searchQueries = [];
+
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i].value;
+        const value = values[i].value.trim();
+        if (value) {
+          searchQueries.push({ key, value });
+        }
+      }
+
+      if (searchQueries.length === 0) {
+        output.innerHTML = "Please enter at least one field.";
+        return;
+      }
+
+      output.innerHTML = "Searching...";
+      const url = `https://sheetdb.io/api/v1/20ouvn2xsv3z1`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+       const filteredData = data.filter(row => {
+            return searchQueries.every(query => {
+                const rowValue = row[query.key];
+                if (!rowValue) return false;
+
+                const expectedType = inputTypeMap[query.key];
+
+                if (expectedType === "number") {
+                return rowValue.trim() === query.value.trim();
+                } else if (expectedType === "date") {
+                const inputDate = formatDateToMDY(query.value);
+                return rowValue.trim() === inputDate;
+                } else {
+                return rowValue.toLowerCase().includes(query.value.toLowerCase());
+                }
+            });
+            });
+
+        if (filteredData.length === 0) {
+          output.innerHTML = "No results found.";
+        } else {
+          let table = `<h3>Found ${filteredData.length} result(s):</h3><div class="table-container"><table><thead><tr>`;
+
+          const headers = Object.keys(filteredData[0]);
+          headers.forEach(header => {
+            table += `<th>${header}</th>`;
+          });
+          table += `</tr></thead><tbody>`;
+
+          filteredData.forEach(row => {
+            table += "<tr>";
+            headers.forEach(header => {
+              table += `<td>${row[header] || "-"}</td>`;
+            });
+            table += "</tr>";
+          });
+
+          table += "</tbody></table></div>";
+          output.innerHTML = table;
+        }
+
+      } catch (err) {
+        output.innerHTML = `Error: ${err.message}`;
+      }
+    }
+  </script>
+
+</body>
+</html>
